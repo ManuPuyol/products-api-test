@@ -3,10 +3,15 @@
     <div class="row gy-3">
       <div
         class="col-md-6 col-lg-4 col-xl-3"
-        v-for="image in productsList"
-        :key="image.image"
+        v-for="product in products"
+        :key="product.image"
+        v-show="product.category === categorySearch"
       >
-        <Card :title="image.title" :image="image.image" :price="image.price" />
+        <Card
+          :title="product.title"
+          :image="product.image"
+          :price="product.price"
+        />
       </div>
     </div>
   </div>
@@ -15,7 +20,7 @@
 <script>
 import HelloWorld from "@/components/HelloWorld.vue";
 import Card from "@/components/Card.vue";
-import {mapActions} from 'vuex'
+import { mapActions, mapState } from "vuex";
 export default {
   name: "Home",
   components: {
@@ -23,15 +28,17 @@ export default {
     Card,
   },
   data() {
-    return {
-      productsList: [],
-    };
+    return {};
   },
   methods: {
-   ...mapActions(['localGetProducts'])
+    ...mapActions(["localGetProducts", "localGetCategories"]),
+  },
+  computed: {
+    ...mapState(["products", "categories", "categorySearch"]),
   },
   created() {
-    this.localGetProducts()
+    this.localGetProducts();
+    this.localGetCategories();
   },
 };
 </script>

@@ -29,9 +29,13 @@
               Categories
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li
+                v-for="category in categories"
+                :key="category"
+                @click="setCategorySearch(category)"
+              >
+                <a class="dropdown-item" href="#">{{ category }}</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -40,8 +44,19 @@
   </nav>
 </template>
 <script>
+import { mapActions, mapState } from "vuex";
+
 export default {
   name: "Navbar",
   props: {},
+  methods: {
+    ...mapActions(["localGetCategories", "setCategorySearch"]),
+  },
+  computed: {
+    ...mapState(["categories"]),
+  },
+  created() {
+    this.localGetCategories();
+  },
 };
 </script>
