@@ -1,10 +1,12 @@
 <template>
-
   <div class="home container d-flex flex-wrap p-2">
-    
     <div class="row gy-3">
-      <div class="col-md-6 col-lg-3" v-for="image in productsList" :key="image.image">
-       <Card :title="image.title" :image="image.image" :price="image.price" />
+      <div
+        class="col-md-6 col-lg-4 col-xl-3"
+        v-for="image in productsList"
+        :key="image.image"
+      >
+        <Card :title="image.title" :image="image.image" :price="image.price" />
       </div>
     </div>
   </div>
@@ -12,13 +14,13 @@
 
 <script>
 import HelloWorld from "@/components/HelloWorld.vue";
-import Card from '@/components/Card.vue'
-import axios from "axios";
+import Card from "@/components/Card.vue";
+import {mapActions} from 'vuex'
 export default {
   name: "Home",
   components: {
     HelloWorld,
-    Card
+    Card,
   },
   data() {
     return {
@@ -26,22 +28,10 @@ export default {
     };
   },
   methods: {
-    async loadData() {
-      await axios({
-        method: "get",
-        url: "https://fakestoreapi.com/products",
-      })
-        .then((response) => {
-          console.log(response);
-          this.productsList = response.data;
-        })
-        .catch((error) => {
-          //onError(error)
-        });
-    },
+   ...mapActions(['localGetProducts'])
   },
   created() {
-    this.loadData();
+    this.localGetProducts()
   },
 };
 </script>
@@ -71,7 +61,7 @@ body {
 
 .card {
   width: fit-content;
-   transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
+  transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
 }
 .card-image {
 }
@@ -98,9 +88,8 @@ body {
 .box {
   padding: 0 5px 0 5px;
 }
-.card:hover{
-    box-shadow: inset 100vw 0 0 0 rgb(194, 194, 194);
-    color: white;
+.card:hover {
+  box-shadow: inset 100vw 0 0 0 rgb(194, 194, 194);
+  color: white;
 }
-
 </style>
