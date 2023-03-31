@@ -1,42 +1,10 @@
 <template>
-  <div class="home container d-flex flex-wrap border p-2">
 
- <article class='card col-12 col-md-6 col-lg-3'  v-for="image in productsList"
-        :key="image.image">
-    <img class="img-thumbnail" :src="image.image" :alt="image">
-    <div class="card-body text-center mx-auto">
-          <div class="cvp">
-            <h5 class="card-title font-weight-bold">{{ image.title }}</h5>
-            <p class="card-text">{{ image.price }} €</p>
-          </div>
-        </div>
-  </article>
-
-    <div class="row row-cols-1 row-cols-xs-2 row-cols-sm-2 row-cols-lg-4 g-3">
-      <div class="card"  style="width: 18rem;"  v-for="image in productsList"
-        :key="image.image">
- <img class="mx-auto img-thumbnail img-fluid" :src="image.image" :alt="image" />
-  <div class="card-body">
-   <div class="cvp">
-            <h5 class="card-title font-weight-bold">{{ image.title }}</h5>
-            <p class="card-text">{{ image.price }} €</p>
-          </div>  </div>
-</div>
-      <div
-        class="card mx-auto col-md-3 col-10 mt-5"
-        v-for="image in productsList"
-        :key="image.image"
-      >
-        <div class="card-image mx-auto">
-          <img class="mx-auto img-thumbnail img-fluid" :src="image.image" :alt="image" />
-        </div>
-
-        <div class="card-body text-center mx-auto">
-          <div class="cvp">
-            <h5 class="card-title font-weight-bold">{{ image.title }}</h5>
-            <p class="card-text">{{ image.price }} €</p>
-          </div>
-        </div>
+  <div class="home container d-flex flex-wrap p-2">
+    
+    <div class="row gy-3">
+      <div class="col-md-6 col-lg-3" v-for="image in productsList" :key="image.image">
+       <Card :title="image.title" :image="image.image" :price="image.price" />
       </div>
     </div>
   </div>
@@ -44,11 +12,13 @@
 
 <script>
 import HelloWorld from "@/components/HelloWorld.vue";
+import Card from '@/components/Card.vue'
 import axios from "axios";
 export default {
   name: "Home",
   components: {
     HelloWorld,
+    Card
   },
   data() {
     return {
@@ -101,7 +71,7 @@ body {
 
 .card {
   width: fit-content;
-  height: 200px !;
+   transition: color .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 .card-image {
 }
@@ -115,7 +85,7 @@ body {
 
 .img-thumbnail {
   border: none !important;
-  height: 200px;
+  height: 200px !important;
   object-fit: contain;
 }
 
@@ -123,5 +93,14 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   padding-bottom: 10px;
+  cursor: pointer;
 }
+.box {
+  padding: 0 5px 0 5px;
+}
+.card:hover{
+    box-shadow: inset 100vw 0 0 0 rgb(194, 194, 194);
+    color: white;
+}
+
 </style>

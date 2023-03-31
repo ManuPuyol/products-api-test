@@ -1,14 +1,16 @@
 <template>
-  <Home></Home>
+  <Navbar />
+  <Home />
 </template>
 <script>
-import Home from './views/Home.vue'
+import Home from "./views/Home.vue";
+import Navbar from "./components/Navbar.vue";
 export default {
   components: {
-    Home
-  }
-}
+    Home,
+    Navbar,
+  },
+};
 </script>
 <style>
-
 </style>
