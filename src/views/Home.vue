@@ -1,19 +1,28 @@
 <template>
   <div class="home container d-flex flex-wrap p-2">
+    <h3 v-if="categorySearch">{{ categorySearch }}</h3>
+    <h3 v-else>All products</h3>
+
     <div class="row gy-3">
       <div
         class="col-md-6 col-lg-4 col-xl-3"
         v-for="product in products"
         :key="product.image"
-        v-show="product.category === categorySearch"
+        v-show="product.category === categorySearch || categorySearch === ''"
       >
         <Card
           :title="product.title"
           :image="product.image"
           :price="product.price"
-        />
+        /> 
       </div>
+    </div> 
+
+       <div class="spinner-grow text-dark loader d-flex justify-content-center" role="status" v-if="loading">
+      <span class="visually-hidden">Loading...</span>
+
     </div>
+   
   </div>
 </template>
 
@@ -28,17 +37,20 @@ export default {
     Card,
   },
   data() {
-    return {};
+    return { loading: true };
   },
   methods: {
-    ...mapActions(["localGetProducts", "localGetCategories"]),
+    ...mapActions(["localGetProducts", "localGetCategories", "getCachedData"]),
   },
   computed: {
     ...mapState(["products", "categories", "categorySearch"]),
   },
   created() {
-    this.localGetProducts();
-    this.localGetCategories();
+    if (this.products?.length > 1) {
+      this.getCachedData((res) => (this.loading = res));
+    } else {
+      this.localGetProducts((res) => (this.loading = res));
+    }
   },
 };
 </script>
@@ -98,5 +110,10 @@ body {
 .card:hover {
   box-shadow: inset 100vw 0 0 0 rgb(194, 194, 194);
   color: white;
+}
+.loader {
+  position: fixed;
+    top: 50%;
+    left: 50%;
 }
 </style>

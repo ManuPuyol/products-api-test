@@ -4,7 +4,7 @@ export default createStore({
   state: {
     products: [],
     categories: [],
-    categorySearch: ''
+    categorySearch: '',
   },
   mutations: {
     setLocalProducts(state, payload) {
@@ -12,21 +12,24 @@ export default createStore({
     },
     setLocalCategories(state, payload) {
       state.categories = payload
-      state.categorySearch = payload[0]
+
     },
     setCategorySearch(state, payload) {
       state.categorySearch = payload
-    }
+    },
   },
   actions: {
-    localGetProducts({ commit }) {
+    localGetProducts({ commit }, onSuccess) {
       const products = []
       getProducts(res => {
         res.data.forEach(element => {
           products.push(element)
         });
         commit('setLocalProducts', products)
+        localStorage.setItem('cachedProducts', JSON.stringify(products))
+        onSuccess(false)
       })
+
     },
     localGetCategories({ commit }) {
       const categories = []
@@ -35,10 +38,19 @@ export default createStore({
           categories.push(element)
         });
         commit('setLocalCategories', categories)
+        localStorage.setItem('cachedCategories', JSON.stringify(categories))
       })
     },
     setCategorySearch({ commit }, category) {
       commit('setCategorySearch', category)
+    },
+    getCachedData({ commit }, onSuccess) {
+      const products = JSON.parse(localStorage.getItem('cachedProducts')) || [];
+      const categories = JSON.parse(localStorage.getItem('cachedCategories')) || [];
+      console.log("cacheaaado")
+      commit('setLocalProducts', products)
+      commit('setLocalCategories', categories)
+      onSuccess(false)
     }
   },
   modules: {

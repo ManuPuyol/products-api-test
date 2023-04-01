@@ -50,13 +50,16 @@ export default {
   name: "Navbar",
   props: {},
   methods: {
-    ...mapActions(["localGetCategories", "setCategorySearch"]),
+    ...mapActions(["localGetCategories", "setCategorySearch", "getCachedData"]),
   },
   computed: {
     ...mapState(["categories"]),
   },
   created() {
-    this.localGetCategories();
+    this.getCachedData(res=>res);
+    if (this.categories?.length < 1) {
+      this.localGetCategories();
+    }
   },
 };
 </script>
