@@ -9,7 +9,7 @@ export async function getProducts(onSuccess, onError) {
             onSuccess(response)
         })
         .catch((error) => {
-            //onError(error)
+            onError(error)
         });
 };
 export async function getCategories(onSuccess, onError) {

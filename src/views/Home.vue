@@ -2,10 +2,9 @@
   <div class="alert alert-danger" role="alert" v-if="showMsg">
     {{ errorMsg }}
   </div>
-  <div class="home container d-flex flex-wrap p-2">
-    <h3 v-if="categorySearch">{{ categorySearch }}</h3>
-    <h3 v-else>All products</h3>
-
+  <div class="home container d-flex flex-wrap p-2 my-1">
+    <h5 class="my-3" v-if="categorySearch">{{ categorySearch }}</h5>
+    <h5 class="my-3" v-else>All products</h5>
     <div class="row gy-3" v-show="!loading">
       <div
         class="col-md-6 col-lg-4 col-xl-3"
@@ -51,10 +50,14 @@ export default {
     ...mapState(["products", "categories", "categorySearch"]),
   },
   created() {
-    this.localGetProducts(
-      (res) => (this.loading = res),
-      (error) => ((this.errorMsg = error), (this.showMsg = true))
-    );
+    if (this.products?.length > 1) {
+      this.getCachedData((res) => (this.loading = res));
+    } else {
+      this.localGetProducts(
+        (res) => (this.loading = res),
+        (error) => ((this.errorMsg = error), (this.showMsg = true))
+      );
+    }
   },
 };
 </script>
@@ -84,9 +87,6 @@ body {
 
 .card {
   width: fit-content;
-  transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-.card-image {
 }
 .card-body {
   width: fit-content;
@@ -98,7 +98,7 @@ body {
 
 .img-thumbnail {
   border: none !important;
-  height: 200px !important;
+  height: 150px !important;
   object-fit: contain;
 }
 
@@ -112,12 +112,14 @@ body {
   padding: 0 5px 0 5px;
 }
 .card:hover {
-  box-shadow: inset 100vw 0 0 0 rgb(194, 194, 194);
-  color: white;
+  box-shadow:  0 0 0 rgba(250, 184, 184, 0.226);
 }
 .loader {
   position: fixed;
   top: 50%;
   left: 50%;
+}
+.home h5{
+  color: rgb(248, 135, 135);
 }
 </style>

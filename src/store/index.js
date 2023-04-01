@@ -28,13 +28,13 @@ export default createStore({
           commit('setLocalProducts', products)
           localStorage.setItem('cachedProducts', JSON.stringify(products))
           onSuccess(false)
-        }).catch(function (error) {
-          if (error.status === 429) {
-            errorMsg = 'Too many calls. Wait a few minutes'
-          }
-          onError(errorMsg)
-        });
-       
+        })
+
+      }, error => {
+        if (error.status === 429) {
+          errorMsg = 'Too many calls. Wait a few minutes'
+        }
+        onError(errorMsg)
       })
 
     },
