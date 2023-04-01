@@ -31,16 +31,15 @@
                   >All products</a
                 >
               </li>
-              <hr>
+              <hr />
               <li
                 v-for="category in categories"
                 :key="category"
                 @click="setCategorySearch(category)"
               >
                 <a class="dropdown-item" href="#">{{ category }}</a>
-                <hr>
+                <hr />
               </li>
-              
             </ul>
           </li>
         </ul>
@@ -53,7 +52,6 @@ import { mapActions, mapState } from "vuex";
 
 export default {
   name: "Navbar",
-  props: {},
   methods: {
     ...mapActions(["localGetCategories", "setCategorySearch", "getCachedData"]),
   },
@@ -69,7 +67,7 @@ export default {
 };
 </script>
 <style lang="css">
-hr{
+hr {
   margin: 0px !important;
 }
 .navbar {
@@ -79,26 +77,26 @@ hr{
 .navbar a {
   color: white;
 }
-.navbar a:hover{
+.navbar a:hover {
   color: white;
   font-weight: bold;
 }
-.navbar a:focus{
+.navbar a:focus {
   color: white;
 }
-.dropdown-item{
+.dropdown-item {
   color: rgb(248, 135, 135) !important;
 }
-.dropdown-item:focus{
+.dropdown-item:focus {
   background: white !important;
 }
-.dropdown-item{
-  padding:1rem !important;
+.dropdown-item {
+  padding: 1rem !important;
 }
-.dropdown-menu{
+.dropdown-menu {
   padding: 0px !important;
 }
-.navbar-toggler-icon{
+.navbar-toggler-icon {
   color: white !important;
 }
 </style>

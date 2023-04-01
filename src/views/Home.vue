@@ -31,13 +31,11 @@
 </template>
 
 <script>
-import HelloWorld from "@/components/HelloWorld.vue";
 import Card from "@/components/Card.vue";
 import { mapActions, mapState } from "vuex";
 export default {
   name: "Home",
   components: {
-    HelloWorld,
     Card,
   },
   data() {
