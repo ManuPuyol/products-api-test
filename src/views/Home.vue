@@ -1,9 +1,12 @@
 <template>
+  <div class="alert alert-danger" role="alert" v-if="showMsg">
+    {{ errorMsg }}
+  </div>
   <div class="home container d-flex flex-wrap p-2">
     <h3 v-if="categorySearch">{{ categorySearch }}</h3>
     <h3 v-else>All products</h3>
 
-    <div class="row gy-3">
+    <div class="row gy-3" v-show="!loading">
       <div
         class="col-md-6 col-lg-4 col-xl-3"
         v-for="product in products"
@@ -14,15 +17,17 @@
           :title="product.title"
           :image="product.image"
           :price="product.price"
-        /> 
+        />
       </div>
-    </div> 
-
-       <div class="spinner-grow text-dark loader d-flex justify-content-center" role="status" v-if="loading">
-      <span class="visually-hidden">Loading...</span>
-
     </div>
-   
+
+    <div
+      class="spinner-grow text-dark loader d-flex justify-content-center"
+      role="status"
+      v-if="loading"
+    >
+      <span class="visually-hidden">Loading...</span>
+    </div>
   </div>
 </template>
 
@@ -37,7 +42,7 @@ export default {
     Card,
   },
   data() {
-    return { loading: true };
+    return { loading: true, errorMsg: "", showMsg: false };
   },
   methods: {
     ...mapActions(["localGetProducts", "localGetCategories", "getCachedData"]),
@@ -46,11 +51,10 @@ export default {
     ...mapState(["products", "categories", "categorySearch"]),
   },
   created() {
-    if (this.products?.length > 1) {
-      this.getCachedData((res) => (this.loading = res));
-    } else {
-      this.localGetProducts((res) => (this.loading = res));
-    }
+    this.localGetProducts(
+      (res) => (this.loading = res),
+      (error) => ((this.errorMsg = error), (this.showMsg = true))
+    );
   },
 };
 </script>
@@ -113,7 +117,7 @@ body {
 }
 .loader {
   position: fixed;
-    top: 50%;
-    left: 50%;
+  top: 50%;
+  left: 50%;
 }
 </style>

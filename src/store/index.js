@@ -19,15 +19,22 @@ export default createStore({
     },
   },
   actions: {
-    localGetProducts({ commit }, onSuccess) {
+    localGetProducts({ commit }, onSuccess, onError) {
       const products = []
+      let errorMsg = ''
       getProducts(res => {
         res.data.forEach(element => {
           products.push(element)
+          commit('setLocalProducts', products)
+          localStorage.setItem('cachedProducts', JSON.stringify(products))
+          onSuccess(false)
+        }).catch(function (error) {
+          if (error.status === 429) {
+            errorMsg = 'Too many calls. Wait a few minutes'
+          }
+          onError(errorMsg)
         });
-        commit('setLocalProducts', products)
-        localStorage.setItem('cachedProducts', JSON.stringify(products))
-        onSuccess(false)
+       
       })
 
     },
